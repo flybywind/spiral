@@ -1,19 +1,21 @@
 $(function (){
 	var blog_post = $(".blog-main");	
-	function show_blog(tag_name)
+	function show_blog(tag_name, type)
 	{
 		blog_post.empty();
+		type = type || "tag";
 		$.each(blog_dict, function (blog_name, blog_info){
-			if (tag_name != "all" && tag_name != blog_info.tag)
+			if (tag_name != "all" && blog_info[type].indexOf(tag_name) < 0)
 			{
 				return;
 			}
-			var tag_str = blog_info.stag == "" ? blog_info.tag : blog_info.tag + "["+blog_info.stag+"]"; 
+			var tag_str = blog_info.tag + blog_info.stag; 
 			var html_str = "<div class='blog-post'>" + 
 								"<h2 class='blog-post-title'>" + blog_name + "</h2>" + 
 									"<p>" + blog_info.desc +' <a href="./' + 
 									blog_info.tag + "/" + blog_name + ".html" + '">more...</a></p>' +
-									'<p class="blog-post-meta">tag: ' + tag_str + '</p>' +
+									'<p class="blog-post-meta">' + 
+									'<span class="label label-default">tag: ' + tag_str + "</span>" + blog_info.time + '</p>' +
 							"</div>";
 			blog_post.append(html_str);	
 		});
@@ -48,4 +50,15 @@ $(function (){
 	}
 	);
 
+	$.each(subtag_cnt, function(stag, cnt){
+		var list_html = '<h4><a class="tags-cnt" href="#" alt= "' + stag + '" style="marging-top:5px; margin-bottom:5px;">' +
+						'<span class="label label-primary">' + 
+						stag + ' ×' + cnt +
+						'</span></a></h4>';
+		$("#tags-list").append(list_html);
+	});
+	$(".tags-cnt").click(function(){
+		var stag = $(this).attr("alt");
+		show_blog(stag, "stag");	
+	});
 });
