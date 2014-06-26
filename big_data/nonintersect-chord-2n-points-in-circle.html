@@ -1,0 +1,68 @@
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.ico"-->
+
+    <title>圆内2n个点求n种不交叉弦的画法</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/blog.css" rel="stylesheet">
+
+  <style id="holderjs-style" type="text/css"></style></head>
+
+  <body>
+
+    <div class="article-masthead">
+      <div class="container">
+		  <div class="blog-header">
+			<h1 class="blog-title">圆内2n个点求n种不交叉弦的画法</h1>
+			<h4 class="blog-title">ref: http://en.wikipedia.org/wiki/Motzkin_numbe </h1>
+		  </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+			<p class="main-content">
+			<h3>
+				思路:
+			</h3>	
+			这个又是迭代思路的经典案例。(之前面试还遇到一个爬楼梯的问题，结果就是Fabonaqi数列）<br/>
+			首先，选择2n个里面其中一个点，然后，画一条弦S，使得这个弦将点集分成2个集合，每个集合里面也是偶数个点，设为2p，2q<br/>
+			那么有
+			<pre>
+				2p + 2q + 2 = 2n
+			</pre>
+			<br/>
+			这样问题就分解为，有多少种画S的方式，答案是n种，
+			所以
+			<pre>
+				F(2n) = F(2n - 2)*F(0) + F(2n - 4)*F(2) + ... F(2)*F(2n - 4) + F(0)*F(2n - 2)
+			</pre>
+			注意 F(2n - 2)*F(0)和 F(0)*F(2n - 2)是2种不同的选择方式
+			所以F(2n)可以进一步简化为：
+			<pre>
+				F(2n) =
+					  2*{ F(2n - 2)*F(0) + F(2n - 4)*F(2) + ... F(n)*F(n-2) }, if n is even
+					  2*{ F(2n - 2)*F(0) + F(2n - 4)*F(2) + ... F(n + 1)*F(n - 3) } + F(n - 1)F(n - 1), if n is odd
+			</pre>
+
+			<h3>
+				点评：
+			</h3>
+			     这个问题的技巧在于，需要构造一个和父问题类似的子问题。然后再用迭代     
+			</p>
+        </div><!-- /.blog-main -->
+	 </div>
+	</div>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/docs.min.js"></script>
+  </body>
+</html>

@@ -38,7 +38,7 @@
 username="root@spiral.pro"
 passwd="xxxx"
 host="ftp://ftp.spiral.pro/"
-git status |grep "modified|new file"|awk '{print $NF}' | \ 
+git status |grep -E "modified|new file"|awk '{print $NF}' | \ 
 	while read file;
 	do
 		dir=`dirname $file`
