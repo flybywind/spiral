@@ -28,10 +28,12 @@ function subtag()
 	return ret_str;
 }
 var blog_dict = {
-	"第一篇博客" :
-		blog_struct("big_data", "本博主第一篇博客", "2014/06/24 23:52", subtag("hadoop", "spark")),
-	"第二部小说" :
-		blog_struct("thinking", "这是一个复杂的世界", "2014/06/24 23:53", subtag("spark")), 
-	"第3部小说" :
-		blog_struct("thinking", "这是一个复杂的世界", "2014/06/25 08:53")
+	"PLSA--vs--LDA":
+		blog_struct("big_data", "二者都有一个doc-topic、topic-word 分布，但是plsa把他们看成固定的参数，而LDA则把他们看成随机变量，用Dirichlet分布来表示先验概率。", "2014/06/26 21:55", subtag("nlp")),
+	"upload-file-by-curl" :
+		blog_struct("prog", "折腾了好几个mac ftpclient，最后发现还是curl最好使", "2014/06/24 23:52", subtag("web")),
+	"nonintersect-chord-2n-points-in-circle" :
+		blog_struct("prog", "Given 2n points on a circle.find the number of ways to draw n non intersecting chords.", "2014/06/24 23:53", subtag("job-interview")), 
+	"job-interview" :
+		blog_struct("prog", "收集的一些面试题，详见github", "2014/06/25 08:53", subtag("job-interview"))
 	};

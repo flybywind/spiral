@@ -40,6 +40,10 @@ h6, .h6 {
   box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
 }
 
+.article-masthead {
+  background-color: #ffcc66;
+  box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
+}
 /* Nav links */
 .blog-nav-item {
   position: relative;
