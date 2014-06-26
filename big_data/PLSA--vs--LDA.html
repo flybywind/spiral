@@ -1,0 +1,57 @@
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.ico"-->
+
+    <title>PLSA && LDA对比</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/blog.css" rel="stylesheet">
+
+  <style id="holderjs-style" type="text/css"></style></head>
+
+  <body>
+
+    <div class="article-masthead">
+      <div class="container">
+		  <div class="blog-header">
+			<h1 class="blog-title">PLSA && LDA对比</h1>
+		  </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+			<p class="main-content">
+
+			二者都有一个doc-topic、topic-word 分布，但是plsa把他们看成固定的参数，用一个概率矩阵表示；而LDA则把他们看成随机变量，用Dirichlet分布来表示doc-topic多项式分布。所以：
+			LDA就是使用dirichlet分布表示doc-topic分布的PLSA。<a href="en.wikipedia.org/wiki/Dirichlet_distribution">Dir分布</a>可以认为是分布的分布<br/>
+
+			LDA生成文档的方式是：<br/><br/>
+		<ol>
+
+				<li>
+					根据Dir(alpha)生成一个topic分布(theta1, theta2,….)，注意这是一个分布，表示k阶多项式分布
+				</li>
+				<li>
+				对文档中的每个词：<br/>
+						a)  从topic分布中选择一个topic，遵从多项式分布;
+						b)  从topic-word分布中，获得该word的概率
+								将概率相乘就得到该文档的生成概率
+				</li>
+		</ol>
+			</p>
+        </div><!-- /.blog-main -->
+	 </div>
+	</div>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/docs.min.js"></script>
+  </body>
+</html>
