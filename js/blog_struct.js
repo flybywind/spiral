@@ -39,4 +39,6 @@ var blog_dict = {
 	"使用curl结合git实现文件自动上传" :
 		blog_struct("prog", 
 				"折腾了好几个mac ftpclient，最后发现还是curl最好使", "2014/06/24 23:52", "upload-file-by-curl", subtag("web")),
+	"无题小诗" :
+		blog_struct("thinking", "凭栏浮旧事， 闲坐惹凉思", "2014/06/20 00:51", "poem"),
 	};
