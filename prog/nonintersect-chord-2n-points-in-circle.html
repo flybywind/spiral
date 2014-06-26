@@ -21,7 +21,7 @@
     <div class="article-masthead">
       <div class="container">
 		  <div class="blog-header">
-			<h1 class="blog-title">圆内2n个点求n种不交叉弦的画法</h1>
+			<h1 class="blog-title">圆内2n个点求n个不交叉弦的画法</h1>
 			<p class="lead blog-description">ref: http://en.wikipedia.org/wiki/Motzkin_numbe </p>
 		  </div>
       </div>
@@ -29,8 +29,15 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-sm-8 blog-main">
+        <div class="col-sm-10 blog-main">
 			<p class="main-content">
+			<h3>
+				描述:
+			</h3>
+	<p>
+		Given 2n points on a circle.find the number of ways to draw n non intersecting chords.
+	</p>
+		给定圆内的2n个点，要画出n个不交叉弦，有几种画法
 			<h3>
 				思路:
 			</h3>	
@@ -44,14 +51,14 @@
 			这样问题就分解为，有多少种画S的方式，答案是n种，
 			所以
 			<pre>
-F(2n) = F(2n - 2)*F(0) + F(2n - 4)*F(2) + ... F(2)*F(2n - 4) + F(0)*F(2n - 2)
+F(2n) = F(2n - 2)*F(0) + F(2n - 4)*F(2) + ... + F(2)*F(2n - 4) + F(0)*F(2n - 2)
 			</pre>
-			注意 F(2n - 2)*F(0)和 F(0)*F(2n - 2)是2种不同的选择方式
+			注意 F(2n - 2)*F(0)和 F(0)*F(2n - 2)是2种不同的选择方式。
 			所以F(2n)可以进一步简化为：
 			<pre>
 F(2n) =
-	  2*{ F(2n - 2)*F(0) + F(2n - 4)*F(2) + ... F(n)*F(n-2) }, if n is even
-	  2*{ F(2n - 2)*F(0) + F(2n - 4)*F(2) + ... F(n + 1)*F(n - 3) } + F(n - 1)F(n - 1), if n is odd
+	  2*{ F(2n - 2)*F(0) + F(2n - 4)*F(2) + ... + F(n)*F(n-2) }, n is even
+	  2*{ F(2n - 2)*F(0) + ... + F(n + 1)*F(n - 3) } + F(n - 1)F(n - 1), n is odd
 			</pre>
 
 			<h3>
