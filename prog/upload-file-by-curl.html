@@ -1,0 +1,59 @@
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.ico"-->
+
+    <title>使用curl向网站上传文件</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/blog.css" rel="stylesheet">
+
+  <style id="holderjs-style" type="text/css"></style></head>
+
+  <body>
+
+    <div class="article-masthead">
+      <div class="container">
+		  <div class="blog-header">
+			<h1 class="blog-title">使用curl向网站上传文件</h1>
+		  </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+			<p>
+			代码如下：<br/>
+			其中关键的就是-k和--ftp-ssl这2个参数。--ftp-ssl支持SSL加密的ftp链接。但是对于小站点，可能存在证书问题等，所以还得加上-k参数。
+			还有一个trick就是利用git检测新加和修改的文件，由ftp自动上传
+			<pre>
+				<code>
+username="root@spiral.pro"
+passwd="xxxx"
+host="ftp://ftp.spiral.pro/"
+git status |grep "modified|new file"|awk '{print $NF}' | \ 
+	while read file;
+	do
+		dir=`dirname $file`
+		if [ "$dir" = "."];then
+			dir=""
+		fi  
+		curl -k --ftp-ssl $file $host"$dir/" --user $username:$passwd
+	done
+				</code>
+			</pre>
+			</p>
+        </div><!-- /.blog-main -->
+	 </div>
+	</div>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/docs.min.js"></script>
+  </body>
+</html>
