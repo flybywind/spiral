@@ -13,7 +13,7 @@ $(function (){
 			var html_str = "<div class='blog-post'>" + 
 								"<h2 class='blog-post-title'>" + blog_name + "</h2>" + 
 									"<p>" + blog_info.desc +' <a href="./' + 
-									blog_info.tag + "/" + blog_name + ".html" + '">more...</a></p>' +
+									blog_info.tag + "/" + blog_info.html + ".html" + '">more...</a></p>' +
 									'<p class="blog-post-meta">' + 
 									'<span class="label label-default">tag: ' + tag_str + "</span>" + blog_info.time + '</p>' +
 							"</div>";
