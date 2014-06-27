@@ -41,6 +41,7 @@ host="ftp://ftp.spiral.pro/"
 git status |grep -E "modified|new file"|awk '{print $NF}' | \ 
 	while read file;
 	do
+		file=`echo $file|tr '"' ' '`
 		dir=`dirname $file`
 		if [ "$dir" = "."];then
 			dir=""

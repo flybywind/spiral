@@ -35,7 +35,7 @@ var blog_dict = {
 	"圆内2n个点求n个不交叉弦的画法" :
 		blog_struct("prog", "Given 2n points on a circle.find the number of ways to draw n non intersecting chords.", "2014/06/25 23:53","nonintersect-chord-2n-points-in-circle", subtag("job-interview")), 
 	"面试题" :
-		blog_struct("prog", "收集的一些面试题，详见github", "2014/06/25 08:53", "job-interview", subtag("job-interview")),
+		blog_struct("prog", "收集的一些面试题，详见github", "2014/06/25 08:53", "README", subtag("job-interview")),
 	"使用curl结合git实现文件自动上传" :
 		blog_struct("prog", 
 				"折腾了好几个mac ftpclient，最后发现还是curl最好使", "2014/06/24 23:52", "upload-file-by-curl", subtag("web")),
