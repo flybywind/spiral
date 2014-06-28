@@ -1,4 +1,9 @@
 #!/bin/sh
+if [ "x$1" = "x" ];then
+	echo "usage: $0 blog_proto" >&2
+	exit 1
+fi
+
 while read type value;
 do
 	eval "$type=\"\$value\""
@@ -8,7 +13,6 @@ echo "tag:$tag"
 echo "description:$description"
 echo "subtag:$subtag"
 date_stamp=`date "+%Y/%m/%d %H:%M"`
-#if [ 0 -eq 1 ];then
 
 awk -v title="$title" \
    	-v tag="$tag" \
@@ -23,7 +27,7 @@ awk -v title="$title" \
 	printf("\n\t\t\"%s\",", description)
 	printf("\n\t\t\"%s\",", date_stamp)
 	printf("\n\t\t\"%s\",", html)
-	printf("\n\t\t\"%s\"),\n", subtag)
+	printf("\n\t\tsubtag(\"%s\")),\n", subtag)
 }' js/blog_struct.js > js/blog_struct2.js
 
 awk -v title="$title" '{

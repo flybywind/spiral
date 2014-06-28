@@ -35,7 +35,7 @@ var blog_dict = {
 		"给定一个链表，判断这个链表中是否存在环，有的话给出环的位置和长度",
 		"2014/06/28 22:11",
 		"cycle-detect-hare-tor",
-		"job-interview"),
+		subtag("job-interview")),
 	"PLSA && LDA对比":
 		blog_struct("big_data", 
 				"二者都有一个doc-topic、topic-word 分布，但是plsa把他们看成固定的参数，而LDA则把他们看成随机变量，用Dirichlet分布来表示先验概率。", "2014/06/26 21:55", "PLSA--vs--LDA", subtag("nlp")),
