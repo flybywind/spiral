@@ -7,6 +7,7 @@
 	<script type="text/javascript"
 		src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 	</script>
+    <link href="../css/py.css" rel="stylesheet">
     <!--link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.ico"-->
     <!--title></title-->
 <title>cycle detect: 龟兔赛跑算法</title>
@@ -56,49 +57,48 @@
 				利用这个条件可以先把\( \mu \)求出来，因为\(L(\mu) = L(\mu + S_t)\) 。所以我们只要把乌龟重新放到起点，兔子位置不变，让他们<strong style="color:red;">以同样的速度</strong>运动，那么它们第一次相遇的地方就是\(\mu\)。然后如何求出\(\lambda\)就很trival了。
 			</p>
 			<p>
-				python代码如下：btw，该算法又称floyd算法。wiki中还给了一种更高效的算法，有兴趣可以研究一下
+				python伪代码如下：btw，该算法又称floyd算法。wiki中还给了一种更高效的算法，有兴趣可以研究一下
 			</p>
-			<pre><code>
-def floyd(f, x0):
-    # Main phase of algorithm: finding a repetition x_i = x_2i
-    # The hare moves twice as quickly as the tortoise and
-    # the distance between them increases by 1 at each step.
-    # Eventually they will both be inside the cycle and then,
-    # at some point, the distance between them will be
-    # divisible by the period λ.
-    tortoise = f(x0) # f(x0) is the element/node next to x0.
-    hare = f(f(x0))
-    while tortoise != hare:
-        tortoise = f(tortoise)
-        hare = f(f(hare))
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">floyd</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">head</span><span class="p">):</span>
+    <span class="c"># Main phase of algorithm: finding a repetition x_i = x_2i</span>
+    <span class="c"># The hare moves twice as quickly as the tortoise and</span>
+    <span class="c"># the distance between them increases by 1 at each step.</span>
+    <span class="c"># Eventually they will both be inside the cycle and then,</span>
+    <span class="c"># at some point, the distance between them will be</span>
+    <span class="c"># divisible by the period λ.</span>
+    <span class="n">tortoise</span> <span class="o">=</span> <span class="n">head</span> 
+    <span class="n">hare</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">next</span>
+    <span class="k">while</span> <span class="n">tortoise</span> <span class="o">!=</span> <span class="n">hare</span><span class="p">:</span>
+        <span class="n">tortoise</span> <span class="o">=</span> <span class="n">tortoise</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">hare</span> <span class="o">=</span> <span class="n">hare</span><span class="o">.</span><span class="n">next</span><span class="o">.</span><span class="n">next</span>
  
-    # At this point the tortoise position, ν, which is also equal
-    # to the distance between hare and tortoise, is divisible by
-    # the period λ. So hare moving in circle one step at a time, 
-    # and tortoise (reset to x0) moving towards the circle, will 
-    # intersect at the beginning of the circle. Because the 
-    # distance between them is constant at 2ν, a multiple of λ,
-    # they will agree as soon as the tortoise reaches index μ.
+    <span class="c"># At this point the tortoise position, ν, which is also equal</span>
+    <span class="c"># to the distance between hare and tortoise, is divisible by</span>
+    <span class="c"># the period λ. So hare moving in circle one step at a time, </span>
+    <span class="c"># and tortoise (reset to head) moving towards the circle, will </span>
+    <span class="c"># intersect at the beginning of the circle. Because the </span>
+    <span class="c"># distance between them is constant at 2ν, a multiple of λ,</span>
+    <span class="c"># they will agree as soon as the tortoise reaches index μ.</span>
  
-    # Find the position μ of first repetition.    
-    mu = 0
-    tortoise = x0
-    while tortoise != hare:
-        tortoise = f(tortoise)
-        hare = f(hare)   # Hare and tortoise move at same speed
-        mu += 1
+    <span class="c"># Find the position μ of first repetition.    </span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">tortoise</span> <span class="o">=</span> <span class="n">head</span>
+    <span class="k">while</span> <span class="n">tortoise</span> <span class="o">!=</span> <span class="n">hare</span><span class="p">:</span>
+        <span class="n">tortoise</span> <span class="o">=</span> <span class="n">tortoise</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">hare</span> <span class="o">=</span> <span class="n">hare</span><span class="o">.</span><span class="n">next</span>   <span class="c"># Hare and tortoise move at same speed</span>
+        <span class="n">mu</span> <span class="o">+=</span> <span class="mi">1</span>
  
-    # Find the length of the shortest cycle starting from x_μ
-    # The hare moves one step at a time while tortoise is still.
-    # lam is incremented until λ is found.
-    lam = 1
-    hare = f(tortoise)
-    while tortoise != hare:
-        hare = f(hare)
-        lam += 1
+    <span class="c"># Find the length of the shortest cycle starting from x_μ</span>
+    <span class="c"># The hare moves one step at a time while tortoise is still.</span>
+    <span class="c"># lam is incremented until λ is found.</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">hare</span> <span class="o">=</span> <span class="n">tortoise</span><span class="o">.</span><span class="n">next</span>
+    <span class="k">while</span> <span class="n">tortoise</span> <span class="o">!=</span> <span class="n">hare</span><span class="p">:</span>
+        <span class="n">hare</span> <span class="o">=</span> <span class="n">hare</span><span class="o">.</span><span class="n">next</span>
+        <span class="n">lam</span> <span class="o">+=</span> <span class="mi">1</span>
  
-    return lam, mu
-</code></pre>
+    <span class="k">return</span> <span class="n">lam</span><span class="p">,</span> <span class="n">mu</span>
+</pre></div>
 			</p>
         </div><!-- /.blog-main -->
 	 </div>
