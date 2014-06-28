@@ -1,0 +1,109 @@
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<script type="text/javascript"
+		src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	</script>
+    <!--link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.ico"-->
+    <!--title></title-->
+<title>cycle detect: 龟兔赛跑算法</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/blog.css" rel="stylesheet">
+
+  <style id="holderjs-style" type="text/css"></style></head>
+
+  <body>
+
+    <div class="article-masthead">
+      <div class="container">
+		  <div class="blog-header">
+			<!--h1 class="blog-title"></h1-->
+			<h1 class="blog-title">cycle detect: 龟兔赛跑算法</h1>
+			<p class="blog-description">ref: <a href="http://en.wikipedia.org/wiki/Cycle_detection">http://en.wikipedia.org/wiki/Cycle_detection</a></p>
+		  </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+			<p class="main-content">
+			<h3>
+				描述：
+			</h3> 
+			<p>
+				问题其实很简单，就是给定一个链表，求这个链表是否有环，如果有返回环的长度和位置，否则返回null。更加一般化的描述见上述wiki。
+				那么如何高效的找到这个环呢，要求不能使用额外的数据空间，时间复杂度O(n)
+			</p>
+			<h3>
+				算法:
+			</h3>	
+			<p>
+				这里重点介绍一下龟兔算法的原理。首先定义几个变量，
+				设：环的位置距离起点为\(\mu\) ，环的长度为\( \lambda \)，\(L(x)\)表示\(x\)位置处的链表节点，\( k, m \)都是正整数。<br/>
+				思路是这样的：<br/>
+				在起点分别放置2个指针，把他们想象成一只兔子(hare)和一只乌龟(tortoise)，兔子速度是乌龟2倍。
+				如果兔子乌龟最终相遇了，说明存在环，否则如果能到达结尾，说明没有环。这个原理容易理解。那么如何求出\(\mu\)和\( \lambda \)呢？
+				记录兔子乌龟跑过的路程，\( S_h = \mu + k \cdot \lambda \)， \( S_t = \mu + m \cdot \lambda \)，那么有
+				\( S_h - S_t = (k - m) \cdot \lambda = S_t \)，即：<strong style="color:red;">此时的位置距离起点正好是环长\( \lambda \)的整数倍！</strong>
+				利用这个条件可以先把\( \mu \)求出来，因为\(L(\mu) = L(\mu + S_t)\) 。所以我们只要把乌龟重新放到起点，兔子位置不变，让他们<strong style="color:red;">以同样的速度</strong>运动，那么它们第一次相遇的地方就是\(\mu\)。然后如何求出\(\lambda\)就很trival了。
+			</p>
+			<p>
+				python代码如下：btw，该算法又称floyd算法。wiki中还给了一种更高效的算法，有兴趣可以研究一下
+			</p>
+			<pre><code>
+def floyd(f, x0):
+    # Main phase of algorithm: finding a repetition x_i = x_2i
+    # The hare moves twice as quickly as the tortoise and
+    # the distance between them increases by 1 at each step.
+    # Eventually they will both be inside the cycle and then,
+    # at some point, the distance between them will be
+    # divisible by the period λ.
+    tortoise = f(x0) # f(x0) is the element/node next to x0.
+    hare = f(f(x0))
+    while tortoise != hare:
+        tortoise = f(tortoise)
+        hare = f(f(hare))
+ 
+    # At this point the tortoise position, ν, which is also equal
+    # to the distance between hare and tortoise, is divisible by
+    # the period λ. So hare moving in circle one step at a time, 
+    # and tortoise (reset to x0) moving towards the circle, will 
+    # intersect at the beginning of the circle. Because the 
+    # distance between them is constant at 2ν, a multiple of λ,
+    # they will agree as soon as the tortoise reaches index μ.
+ 
+    # Find the position μ of first repetition.    
+    mu = 0
+    tortoise = x0
+    while tortoise != hare:
+        tortoise = f(tortoise)
+        hare = f(hare)   # Hare and tortoise move at same speed
+        mu += 1
+ 
+    # Find the length of the shortest cycle starting from x_μ
+    # The hare moves one step at a time while tortoise is still.
+    # lam is incremented until λ is found.
+    lam = 1
+    hare = f(tortoise)
+    while tortoise != hare:
+        hare = f(hare)
+        lam += 1
+ 
+    return lam, mu
+</code></pre>
+			</p>
+        </div><!-- /.blog-main -->
+	 </div>
+	</div>
+    <script src="./js/bootstrap.min.js"></script>
+	<script src="./js/docs.min.js"></script>
+  </body>
+</html>
