@@ -1,0 +1,102 @@
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<script type="text/javascript"
+		src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	</script>
+    <!--title></title-->
+<title>simrank原理</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/blog.css" rel="stylesheet">
+
+  <style id="holderjs-style" type="text/css"></style></head>
+
+  <body>
+
+    <div class="article-masthead">
+      <div class="container">
+		  <div class="blog-header">
+			<!--h1 class="blog-title"></h1-->
+<h1 class="blog-title">simrank原理</h1>
+		  </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+			<p class="main-content">
+			<h3>
+				基本介绍
+			</h3>
+			<p>
+			如果你可以把手头的问题抽象成一个graph，并且你已知了某些节点的类型，想知道其他节点和这些已知节点的相似度，simrank可能是一个比较好的方案。<br/>
+			它的一个主要思想就是：相似的节点之间距离也应该比较近，像pagerank一样，想象在你的graph里面有一个random walker，从一个节点开始漫步，在“开始时”他更可能停在和起点同类型的节点上。但是根据Markov理论，经过足够多的迭代，walker最终停留的节点是和起点没关系的，那么怎么体现起点的作用呢？<br/>
+			答案就是引入teleport set，构造一个Biased Random Walk<br/>
+			</p>
+			<h3>
+			Biased Random Walk模型	
+			</h3>
+			<p>
+			首先模型是一个有向或者无向图，图中有些节点的类型已知了。比如web里面的sports相关页面。
+			然后把Random walker放到图里面，让他自由漫步，他进入某个节点的概率事先约定好，比如是1/degree。
+			但是每一步时都有一个\(1 - \beta\)的概率，他“厌倦”了，停止了漫步，回到了他喜欢的页面上，比如他收藏的一些体育相关的页面。
+			<span style="color:red;">
+				这些页面就是teleport set。
+			</span>
+			这样的random walk就变成了一个有偏好(biased)的模型。最终模型收敛时每个节点的概率，就可以认为是它和teleport set的相似度。
+			</p>
+			<h3>
+				小例子
+			</h3>
+			<p>
+			下面举一个小例子说明simrank是如何计算的，图关系如下：<br/>
+		  <div class="row">
+			<div class="span4 offset4">
+				<img src="../img/simrank_exemple.png" alt="simrank example"  width=70% />
+			</div>
+		</div>
+			首先构建图的转移矩阵\(M\)，如果节点\(i\)和\(j\)相连，则\(M[i,j] = 1/k\)，否则等于0。\(k\)是\(j\)的度(degree)。
+			这样上图的转移矩阵就是：其中每一列分别表示Picture1，Picture2，Picture3，Sky和Tree
+			\begin{equation} 
+			M = \begin{vmatrix}
+			0 & 0 & 0 & 1/3 & 1/2 \\
+			0 & 0 & 0 & 1/3 & 0 \\
+			0 & 0 & 0 & 1/3 & 1/2 \\
+			1/2 & 1 & 1/2 & 0 & 0 \\
+			1/2 & 0 & 1/2 & 0 & 0
+			\end{vmatrix} 
+			\end{equation} 
+	下面我们就来构建迭代公式<br/>
+	假设\(v_i\)是walker第i轮迭代时处于每个节点的概率，选择teleport为['Sky'， 'Tree']，\(e_N\)是它回到每个teleport的概率，取值和工程实际需要相关，通常取平均：
+	\begin{equation}
+	e_N = \begin{vmatrix}
+		0\\
+		0\\
+		0\\
+		1/2\\
+		1/2
+		\end{vmatrix}
+		\end{equation}
+		则：
+		\begin{equation}
+		v_{i+1} = \beta M v_i + (1 - \beta)e_N
+		 \end{equation} 
+		 然后剩下的就是通过hadoop或spark进行迭代了。
+			需要注意的是，迭代结束后，<span style="color:red;">每个节点上的概率都是和teleport相对的。如果你有第二类teleport，想知道某个节点和哪个类型更相似，需要先对概率进行归一化！</span> 
+		 </p>
+	
+        </div><!-- /.blog-main -->
+	 </div>
+	</div>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/docs.min.js"></script>
+  </body>
+</html>

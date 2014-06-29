@@ -30,6 +30,12 @@ function subtag()
 }
 var blog_dict = {
 // blog_struct:	
+"simrank原理":
+	blog_struct("big_data",
+		"如果你可以把手头的问题抽象成一个graph，并且你已知了某些节点的类    型，想知道其他节点和这些已知节点的相似度，simrank可能是一个比较好的方案。",
+		"2014/06/29 22:44",
+		"simrank-intro",
+		subtag("graph")),
 "cycle detect: 龟兔赛跑算法":
 	blog_struct("prog",
 		"给定一个链表，判断这个链表中是否存在环，有的话给出环的位置和长度",
