@@ -30,6 +30,12 @@ function subtag()
 }
 var blog_dict = {
 // blog_struct:	
+"利用聚类实现更好的分类":
+	blog_struct("big_data",
+		"这是edX_MITx_15.071_The Analytics Edge在week6时讲的一节课：Predictive Diagnosis。使用了3个方法优化分类器，还是很值得借鉴的",
+		"2014/06/30 22:52",
+		"edX-Predictive-Diagnosis",
+		subtag("ml")),
 "simrank原理":
 	blog_struct("big_data",
 		"如果你可以把手头的问题抽象成一个graph，并且你已知了某些节点的类型，想知道其他节点和这些已知节点的相似度，simrank可能是一个比较好的方案。",

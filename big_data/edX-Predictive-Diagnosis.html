@@ -1,0 +1,90 @@
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--link rel="shortcut icon" href="http://getbootstrap.com/assets/ico/favicon.ico"-->
+    <!--title></title-->
+<title>利用聚类优化分类器</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../dist/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/blog.css" rel="stylesheet">
+
+  <style id="holderjs-style" type="text/css"></style></head>
+
+  <body>
+
+    <div class="article-masthead">
+      <div class="container">
+		  <div class="blog-header">
+			<!--h1 class="blog-title"></h1-->
+<h1 class="blog-title">利用聚类优化分类器</h1>
+		  </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+			<p class="main-content">
+			当你面临的问题非常复杂时，设计一个general的分类器可能效果不佳。
+			如果能通过一些方式，把问题拆分，然后在每个子集上分别训练分类器，一般效果会更好。
+			The Analytics Edge在讲聚类的时候，就以心脏病预测为例，讲述了一下这样做的好处。我觉得主要可以借鉴的有2点：
+			<p>
+				1.  先简单根据医疗花销(cost)把病人分成3组。因为通过这个简单特征可以有效的把病人粗略分类，实际看也是非常合理的。
+			</p>
+			<p>
+				2.  然后在每个分组里面，再进行kmeans聚类。聚类数根据经验选10<br/>
+				这样，最终模型的架构如下：首先cost bucket是一层，然后每层里面又进行了聚类，每个聚类最终使用RF(Random Forest)做分类器，相当于一个2层的组合模型。
+			</p>
+			<div class="row">
+				<div class="span4 offset4">
+					<img src="../img/edx_cluster_class.png" width=100% alt="Discovering Patterns for Disease Detection">
+				</div>
+			</div>
+			<div class="panel panel-default">
+				  <!-- Default panel contents -->
+			<div class="panel-heading">效果对比</div>
+				<div class="panel-body">
+					<p>
+					所有聚类的平均预测效果对比：<br/>
+					聚类数 k = 10
+					</p>
+				</div>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>cost bucket </th>
+							<th>RF without Clustering </th>
+							<th>RF with Clustering </th>
+						</tr>
+						<tr>
+							<th>1</th>
+							<th>46.93%</th>
+							<th>64.75%</th>
+						</tr>
+						<tr>
+							<th>2</th>
+							<th>55.99%</th>
+							<th>72.93%</th>
+						</tr>
+						<tr>
+							<th>3</th>
+							<th>58.31%</th>
+							<th>78.25%</th>
+						</tr>
+						</table>
+		    </div>
+			</p>
+        </div><!-- /.blog-main -->
+	 </div>
+	</div>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/docs.min.js"></script>
+  </body>
+</html>
