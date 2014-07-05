@@ -62,3 +62,32 @@ $(function (){
 		show_blog(stag, "stag");	
 	});
 });
+var subtag_cnt = {}
+function blog_struct(tag_name, description, time, html, sub_tag)
+{
+	sub_tag = sub_tag || "";
+
+	return {
+		tag: tag_name,
+		desc: description,
+		time: time,
+		html: html,
+		stag: sub_tag
+	};
+}
+function subtag()
+{
+	var ret_str = "[";
+	arg_len = arguments.length;
+	$.each(arguments, function(i, v){
+		if (subtag_cnt.hasOwnProperty(v))
+			subtag_cnt[v]++;
+		else
+			subtag_cnt[v] = 1;
+		if (i < arg_len - 1)
+			ret_str += (v + ", ");
+		else
+			ret_str += (v + "]");
+	});
+	return ret_str;
+}

@@ -1,35 +1,11 @@
-var subtag_cnt = {};
-
-function blog_struct(tag_name, description, time, html, sub_tag)
-{
-	sub_tag = sub_tag || "";
-
-	return {
-		tag: tag_name,
-		desc: description,
-		time: time,
-		html: html,
-		stag: sub_tag
-	};
-}
-function subtag()
-{
-	var ret_str = "[";
-	arg_len = arguments.length;
-	$.each(arguments, function(i, v){
-		if (subtag_cnt.hasOwnProperty(v))
-			subtag_cnt[v]++;
-		else
-			subtag_cnt[v] = 1;
-		if (i < arg_len - 1)
-			ret_str += (v + ", ");
-		else
-			ret_str += (v + "]");
-	});
-	return ret_str;
-}
 var blog_dict = {
 // blog_struct:	
+"Raymond Hettinger 2013 pycon talk小结":
+	blog_struct("prog",
+		"Raymond Hettinger是python领域的大牛，在2013年的pycon talk上他分享的主题是“transforming code into beautiful, idomatic python”，看完之后受益良多，特此总结一下。",
+		"2014/07/05 17:35",
+		"beautiful_python",
+		subtag("python")),
 "利用聚类优化分类器":
 	blog_struct("big_data",
 		"这是edX_MITx_15.071_The Analytics Edge在week6时讲的一节课：Predictive Diagnosis。使用了2个方法优化分类器，还是很值得借鉴的",
